@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TransferConfig from="source_database" to="target_database" type="sql" path="D:\system\Desktop\tempCache\dataSql.sql"
+                isAll="true">
+    <!--
+        from,to 值取datasources -> source -> name
+        type: 值:sql  表示from的数据导出成to指向的数据库插入sql语句
+                 transfer 表示from的数据直接入库to指向的数据库
+        path：若type的取值是sql 则需要填写否则可以为空
+        isAll : 表示是否导出数据库中所有表的数据，如果为false 则只导出relations中配置的表
+    -->
+
+    <datasources>
+        <!-- 下面type 的值只能是oracle 或者 mysql -->
+        <source>
+            <name>source_database</name>
+            <dbType>mysql</dbType>
+            <url>
+                <![CDATA[jdbc:mysql://192.168.1.57:23306/athena_biz_1055?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&nullNamePatternMatchesAll=true]]></url>
+            <driver>com.mysql.cj.jdbc.Driver</driver>
+            <username>root</username>
+            <password>jackie1234</password>
+        </source>
+        <source>
+            <name>target_database</name>
+            <dbType>mysql</dbType>
+            <url>
+                <![CDATA[jdbc:mysql://192.168.1.57:53306/athena_biz_1055?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&nullNamePatternMatchesAll=true]]></url>
+            <driver>com.mysql.cj.jdbc.Driver</driver>
+            <username>root</username>
+            <password>jackie1234</password>
+        </source>
+    </datasources>
+
+    <!-- 表对应关系配置
+        以下: onlyConfig 表示是否只导出配置了fields 的字段,
+    -->
+    <relations>
+        <relation onlyConfig="true">
+            <!-- from 指向的数据库表名称 -->
+            <source>P_PRO_INDEX</source>
+            <!-- to 指向的数据库表名称 -->
+            <target>mysql_index</target>
+            <!-- 字段关系配置 -->
+            <fields>
+                <field source="L_IDX_ID" target="index_id"/>
+                <field source="L_PRO_ID" target="pro_id"/>
+                <field source="L_INDEX_ID" target="indx_id"/>
+                <field source="VC_INDEX_TYPE" target="vc_type"/>
+                <field source="L_INDEX_AMT" target="l_amt"/>
+                <field source="VC_INDEX_CURRENCY" target="vc_index"/>
+            </fields>
+        </relation>
+        <relation onlyConfig="true">
+            <source>P_PRO_MEMBER</source>
+            <target>pro_member</target>
+            <fields>
+                <field source="L_MEMBER_ID" target="m_id"/>
+                <field source="L_PRO_ID" target="p_id"/>
+                <field source="VC_M_NAME" target="m_name"/>
+                <field source="VC_M_POSITION" target="m_position"/>
+                <field source="VC_M_MOBILE" target="m_mobile"/>
+            </fields>
+        </relation>
+        <relation onlyConfig="false">
+            <source>P_BASE_INFO</source>
+            <target>P_BASE_INFO</target>
+        </relation>
+    </relations>
+
+</TransferConfig>
