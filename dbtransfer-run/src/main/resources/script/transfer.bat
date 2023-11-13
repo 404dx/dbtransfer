@@ -32,6 +32,6 @@ echo "ERROR: No JAVA_HOME was found"
 goto end
 
 :run
-java -classpath transfer.jar com.bird.main.Application %RUN_ARGS%
+java -classpath transfer.jar main.co.qingyu.Application %RUN_ARGS%
 
 :end
